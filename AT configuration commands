@@ -1,0 +1,20 @@
+The AT configuration is the commands used to setup the specific connection between two or more Bluetooth modules. This configuration is done in the serial monitor after the baud rates have been set on the Arduino.
+
+1. Basic configuration for Slave modules (HC-06):
+   * AT+UART9600: Set the baud rate of the connection to 9600 Hz.
+   * AT+PSWDXXXX: Set the password to access the Bluetooth to "XXXX", i.e. "AT+PSWD1234" will set the password to "1234".
+
+2. Basic configuration for Master modules (HC-05), should be used in order:
+   * AT+UART9600: Set the baud rate of the connection to 9600 Hz.
+   * AT+PSWDXXXX: Set the password to be used when creating the connection with other Bluetooth modules to "XXXX", i.e. "AT+PSWD1234" will set the password to "1234".
+   * AT+RMAAD: clears any previously paired devices.
+   * AT+ROLE=1: Set the Master/Slave role to Master.
+   * AT+RESET: Necessary only if the role (Master or Slave) is changed.
+   * AT+CMODE=0: Allows the Master module to connect to any device.
+   * AT+INQM=0,5,9: Set the Module to search for connections in up to 5 devices every 9 seconds.
+   * AT+INIT: initiates the SPP (Serial Port Profile), if it isn't active yet.
+   * AT+INQ: Searches for other Bluetooth devices. It returns three values for each device found, the address, the class of the device and the strength of the signal the Master receives from the other Bluetooth module. i.e. of values returned "INQ:A854:B2:3FB035,8043C,7FFF", in which "A854:B2:3FB035",is the address, and "7FFF"is the power of the signal.
+   * AT+PAIR=XXXX,XX,XXXXXX,T: Pair the Master with the Slave module, first it is needed to insert the address "XXXX:XX:XXXXXX" and the maximum amount of time the Master will wait for the connection to start.
+   * AT+BIND=XXXX,XX,XXXXXX: Bind the Master to the Bluetooth device with address "XXXX:XX:XXXXXX".
+   * AT+CMODE=1: Set the Master to only connect with paired devices.
+   * AT+LINK=XXXX,XX,XXXXXX: Link the Master to the Bluetooth device with address "XXXX:XX:XXXXXX", it will make the connection between Master and the Slave module with this specific address to automatically connect the next time they are turned on.
